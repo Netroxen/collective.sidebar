@@ -17,6 +17,13 @@ Features
 - Patches the default Plone main template, keeping the clutter at bay
 
 
+Screenshots
+--------
+
+![Toolbar](http://i.imgur.com/OZplA80.png)
+![Header](http://i.imgur.com/Vr7bVUy.png)
+
+
 Examples
 --------
 
