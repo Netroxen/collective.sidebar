@@ -11,11 +11,10 @@ Features
 - Fade-In site cover
 - Header and Navigation colour changeable
 - Navigation sections hideable
-
-
 - Implements CSS3 transform 3D optimisation
 - Fixed header and navigation, no need to scroll back up!
 - Patches the default Plone portrait size and quality
+- Patches the default Plone main template, keeping the clutter at bay
 
 
 Examples
