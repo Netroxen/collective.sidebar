@@ -1,0 +1,21 @@
+# -*- coding: utf-8 -*-
+import logging
+
+
+logger = logging.getLogger('collective.sidebar')
+
+MEMBER_IMAGE_SCALE = (400, 400)
+MEMBER_IMAGE_QUALITY = 90
+
+
+def apply_portrait_patch():
+    logger.info(
+        'collective.sidebar patching portrait scale to {0} @ {1}%'.format(
+            MEMBER_IMAGE_SCALE,
+            MEMBER_IMAGE_QUALITY,
+        ),
+    )
+    from Products.PlonePAS import config
+    config.MEMBER_IMAGE_SCALE = MEMBER_IMAGE_SCALE
+    config.IMAGE_SCALE_PARAMS['scale'] = MEMBER_IMAGE_SCALE
+    config.IMAGE_SCALE_PARAMS['quality'] = MEMBER_IMAGE_QUALITY

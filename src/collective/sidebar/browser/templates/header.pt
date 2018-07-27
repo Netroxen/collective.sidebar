@@ -1,0 +1,17 @@
+<tal:header xmlns="http://www.w3.org/1999/xhtml" xmlns:tal="http://xml.zope.org/namespaces/tal">
+
+  <div id="header-wrapper" tal:define="navroot context/@@plone_portal_state/navigation_root_url">
+    <div class="container-fluid header-wrapper">
+
+      <a class="header-logo" href="${navroot}">
+        LOGO
+      </a>
+
+      <div class="header-icons">
+        <span id="nav-icon" class="jam jam-menu" />
+      </div>
+
+    </div>
+  </div>
+
+</tal:header>

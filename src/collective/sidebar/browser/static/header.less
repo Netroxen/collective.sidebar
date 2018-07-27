@@ -1,0 +1,44 @@
+/* Header Styling */
+#header-wrapper {
+  height: 80px;
+  width: 100%;
+
+  .vendor(transition, all 0.6s ease);
+
+  /* Header Content */
+  .header-wrapper {
+    display: flex;
+    height: inherit;
+    padding-left: 65px;
+    padding-right: 65px;
+
+    .header-logo {
+      margin-right: auto;
+
+      img {
+        height: 100%;
+        padding: 10px 8px 8px 8px;
+        width: auto;
+      }
+    }
+
+    .header-icons {
+      color: @white;
+      cursor: pointer;
+      float: right;
+      font-size: 3em;
+      padding: 15px;
+
+      .vendor(transition, all 0.6s ease);
+    }
+  }
+}
+
+@media (max-width: @screen-sm-max) {
+  #header-wrapper {
+    .header-wrapper {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
+}

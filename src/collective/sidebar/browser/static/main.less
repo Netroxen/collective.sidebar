@@ -1,0 +1,77 @@
+/* Screen Sizes */
+@screen-xxxs-max: 319px;
+@screen-xxs-min: 320px;
+@screen-xxs-max: 479px;
+@screen-xs-min: 480px;
+@screen-xs-max: 767px;
+@screen-sm-min: 768px;
+@screen-sm-max: 991px;
+@screen-md-min: 992px;
+@screen-md-max: 1199px;
+@screen-lg-min: 1200px;
+
+// Default Colors
+@black: #2F3334;
+@grey: #EBECEF;
+@blue: #0077C8;
+@white: #FAFAFA;
+
+/* Imports */
+@import './header.less';
+@import './cover.less';
+@import './sidebar.less';
+
+@import './jam.less';
+
+/* Vendor */
+.vendor(@property, @value) {
+     -moz-@{property}: @value;
+      -ms-@{property}: @value;
+       -o-@{property}: @value;
+  -webkit-@{property}: @value;
+          @{property}: @value;
+}
+
+/* General */
+body {
+  overflow-x: hidden;
+
+  .outer-wrapper {
+    padding: 80px 0 0 0;
+  }
+
+  &.plone-toolbar-left-expanded,
+  &.plone-toolbar-left-default {
+    padding-left: 0 !important;
+  }
+}
+
+#content-header {
+  background-color: @blue;
+  height: 80px;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 80;
+}
+
+#mainnavigation-wrapper {
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 100;
+}
+
+#mainnavigation {
+  height: inherit;
+  width: inherit;
+}
+
+#hero {
+  margin: 0;
+}
+
+#portal-breadcrumbs {
+  margin: 0 0 30px 0;
+}

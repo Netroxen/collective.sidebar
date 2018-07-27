@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<object>
+
+  <hidden manager="plone.portaltop" skinname="*">
+    <viewlet name="plone.header" />
+  </hidden>
+
+  <hidden manager="plone.mainnavigation" skinname="*">
+    <viewlet name="plone.global_sections" />
+  </hidden>
+
+</object>
