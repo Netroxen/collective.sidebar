@@ -50,7 +50,6 @@
 
     <header id="portal-top" i18n:domain="plone">
       <div tal:replace="structure provider:plone.portaltop" />
-      <div id="sidebar-cover"></div>
     </header>
 
     <div id="portal-mainnavigation" tal:content="structure provider:plone.mainnavigation"></div>

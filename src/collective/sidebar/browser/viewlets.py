@@ -12,6 +12,11 @@ class HeaderViewlet(ViewletBase):
 
     index = ViewPageTemplateFile('templates/header.pt')
 
+    def get_sidebar_colour(self):
+        return api.portal.get_registry_record(
+            'collective.sidebar.sidebar_colour',
+        )
+
 
 class NavigationViewlet(ViewletBase):
 
@@ -20,11 +25,29 @@ class NavigationViewlet(ViewletBase):
     def is_anonymous(self):
         return api.user.is_anonymous()
 
+    def profile_section_enabled(self):
+        return api.portal.get_registry_record(
+            'collective.sidebar.profile_section',
+        )
+
+    def get_sidebar_colour(self):
+        return api.portal.get_registry_record(
+            'collective.sidebar.sidebar_colour',
+        )
+
     def get_portal_url(self):
         return api.portal.get().absolute_url()
 
-    def get_user_profile_url(self):
-        return self.get_portal_url() + get_user()[2]
+    def get_user_data(self):
+        user = get_user()
+        mtool = api.portal.get_tool('portal_membership')
+        portrait = mtool.getPersonalPortrait(id=user[1])
+        user_info = mtool.getMemberInfo(user[1])
+        data = {
+            'user_info': user_info,
+            'portrait': portrait.absolute_url(),
+        }
+        return data
 
     def get_search_path(self, query=False):
         portal_url = self.get_portal_url()
@@ -163,3 +186,13 @@ class NavigationViewlet(ViewletBase):
             return context_url
         else:
             return parent_url
+
+
+class CoverViewlet(ViewletBase):
+
+    index = ViewPageTemplateFile('templates/cover.pt')
+
+    def is_enabled(self):
+        return api.portal.get_registry_record(
+            'collective.sidebar.enable_cover',
+        )

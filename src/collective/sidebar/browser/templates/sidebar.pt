@@ -7,27 +7,32 @@
                    root_items python:view.get_items(root=True)"
        i18n:domain="collective.sidebar">
 
+    <style media="screen" tal:define="colour view/get_sidebar_colour">
+      #portal-navigation .menu-section-title {
+        color: ${colour};
+      }
+    </style>
+
     <div class="menu">
 
-      <!-- Main Menu -->
+      <tal:condition tal:condition="view/profile_section_enabled">
+        <div class="menu-section" tal:condition="not:view/is_anonymous">
+          <div class="menu-profile"
+               tal:define="data view/get_user_data;
+                           user_info data/user_info;
+                           portrait data/portrait">
 
-      <div class="menu-section" tal:condition="view/can_manage_portal">
+            <a href="${portal_url}/@@personal-information">
+              <div class="profile-image" style="background-image: url('${portrait}');"></div>
 
-        <div class="menu-section-title" i18n:translate="navigation_heading_site">Site</div>
+              <div class="profile-info">
+                <div class="profile-name" tal:content="python:user_info['fullname'] or user_info['username']"></div>
+              </div>
+            </a>
 
-        <tal:item>
-          <a href="#" tal:attributes="href python:portal_url + '/plone_control_panel'">
-            <span class="menu-item-icon jam jam-tools"></span> <span class="menu-item-title" i18n:translate="navigation_link_settings">Settings</span>
-          </a>
-        </tal:item>
-
-        <tal:item>
-          <a href="#" tal:attributes="href python:context_url + '/manage_propertiesForm'" target="_blank" rel="noopener">
-            <span class="menu-item-icon jam jam-cog"></span> <span class="menu-item-title" i18n:translate="navigation_link_view_in_zmi">View in ZMI</span>
-          </a>
-        </tal:item>
-
-      </div>
+          </div>
+        </div>
+      </tal:condition>
 
       <div class="menu-section">
 
@@ -121,6 +126,20 @@
 
       </div>
 
+      <!-- Document Management -->
+
+      <div class="menu-section" tal:condition="view/can_edit">
+
+        <div class="menu-section-title" i18n:translate="navigation_heading_add">Add</div>
+
+        <tal:repeat tal:repeat="item python:view.get_addable_types()">
+          <a href="#" tal:attributes="href item/url">
+            <span class="menu-item-icon jam jam-plus"></span> <span class="menu-item-title" tal:content="item/title"></span>
+          </a>
+        </tal:repeat>
+
+      </div>
+
       <!-- Display Management -->
 
       <div class="menu-section" tal:condition="view/can_edit">
@@ -133,17 +152,23 @@
 
       </div>
 
-      <!-- Document Management -->
+      <!-- Main Menu -->
 
-      <div class="menu-section" tal:condition="view/can_edit">
+      <div class="menu-section" tal:condition="view/can_manage_portal">
 
-        <div class="menu-section-title" i18n:translate="navigation_heading_add">Add</div>
+        <div class="menu-section-title" i18n:translate="navigation_heading_site">Site</div>
 
-        <tal:repeat tal:repeat="item python:view.get_addable_types()">
-          <a href="#" tal:attributes="href item/url">
-            <span class="menu-item-icon jam jam-plus"></span> <span class="menu-item-title" tal:content="item/title"></span>
+        <tal:item>
+          <a href="#" tal:attributes="href python:portal_url + '/plone_control_panel'">
+            <span class="menu-item-icon jam jam-tools"></span> <span class="menu-item-title" i18n:translate="navigation_link_settings">Settings</span>
           </a>
-        </tal:repeat>
+        </tal:item>
+
+        <tal:item>
+          <a href="#" tal:attributes="href python:context_url + '/manage_propertiesForm'" target="_blank" rel="noopener">
+            <span class="menu-item-icon jam jam-cog"></span> <span class="menu-item-title" i18n:translate="navigation_link_view_in_zmi">View in ZMI</span>
+          </a>
+        </tal:item>
 
       </div>
 

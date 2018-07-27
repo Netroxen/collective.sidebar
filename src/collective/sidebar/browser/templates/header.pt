@@ -1,10 +1,16 @@
 <tal:header xmlns="http://www.w3.org/1999/xhtml" xmlns:tal="http://xml.zope.org/namespaces/tal">
 
+  <style media="screen" tal:define="colour view/get_sidebar_colour">
+    #content-header {
+      background-color: ${colour};
+    }
+  </style>
+
   <div id="header-wrapper" tal:define="navroot context/@@plone_portal_state/navigation_root_url">
     <div class="container-fluid header-wrapper">
 
       <a class="header-logo" href="${navroot}">
-        LOGO
+        <img src="++resource++collective.sidebar/images/plone_logo.svg" alt="">
       </a>
 
       <div class="header-icons">

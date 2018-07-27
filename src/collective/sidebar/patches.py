@@ -10,7 +10,7 @@ MEMBER_IMAGE_QUALITY = 90
 
 def apply_portrait_patch():
     logger.info(
-        'collective.sidebar patching portrait scale to {0} @ {1}%'.format(
+        'patching portrait scale to {0} @ {1}% quality'.format(
             MEMBER_IMAGE_SCALE,
             MEMBER_IMAGE_QUALITY,
         ),

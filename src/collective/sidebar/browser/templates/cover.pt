@@ -1,0 +1,3 @@
+<tal:condition tal:condition="view/is_enabled">
+  <div id="sidebar-cover"></div>
+</tal:condition>

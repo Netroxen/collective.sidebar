@@ -19,7 +19,7 @@
   <browser:viewlet
       name="header"
       manager="plone.app.layout.viewlets.interfaces.IPortalTop"
-      layer="zope.interface.Interface"
+      layer="collective.sidebar.interfaces.ICollectiveSidebarLayer"
       class=".viewlets.HeaderViewlet"
       permission="zope2.View"
       />
@@ -27,8 +27,16 @@
   <browser:viewlet
       name="navigaton"
       manager="plone.app.layout.viewlets.interfaces.IMainNavigation"
-      layer="zope.interface.Interface"
+      layer="collective.sidebar.interfaces.ICollectiveSidebarLayer"
       class=".viewlets.NavigationViewlet"
+      permission="zope2.View"
+      />
+
+  <browser:viewlet
+      name="cover"
+      manager="plone.app.layout.viewlets.interfaces.IPortalTop"
+      layer="collective.sidebar.interfaces.ICollectiveSidebarLayer"
+      class=".viewlets.CoverViewlet"
       permission="zope2.View"
       />
 
