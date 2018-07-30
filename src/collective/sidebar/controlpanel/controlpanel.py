@@ -19,6 +19,15 @@ class IControlPanel(Interface):
         default=u'#007EB6',
     )
 
+    enable_shadows = schema.Bool(
+        title=_(u'controlpanel_enable_shadows_title',
+                default='Enable Shadow Effects'),
+        description=_(u'controlpanel_enable_shadows_description',
+                      default=u'Enable or disable the navigation shadow effects. Note: IE 11, FF 60, Chrome 49 and above only...'),  # noqa: 501
+        required=False,
+        default=True,
+    )
+
     fieldset(
         _(u'controlpanel_fieldset_navigation',
           default=u'Navigation'),

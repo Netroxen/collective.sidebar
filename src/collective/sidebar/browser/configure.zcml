@@ -12,8 +12,14 @@
       />
 
   <browser:resourceDirectory
-      name="collective.sidebar"
       directory="static"
+      name="collective.sidebar"
+      />
+
+  <plone:static
+      directory="resources"
+      name="collective.sidebar.resources"
+      type="plone"
       />
 
   <browser:viewlet

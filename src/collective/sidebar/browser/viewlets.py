@@ -2,6 +2,7 @@
 from collective.sidebar.utils import crop
 from collective.sidebar.utils import get_translated
 from collective.sidebar.utils import get_user
+from collective.sidebar.utils import hex_to_rgb
 from plone import api
 from plone.app.layout.viewlets.common import ViewletBase
 from Products.CMFCore.interfaces import IFolderish
@@ -30,10 +31,18 @@ class NavigationViewlet(ViewletBase):
             'collective.sidebar.profile_section',
         )
 
+    def shadow_effects_enabled(self):
+        return api.portal.get_registry_record(
+            'collective.sidebar.enable_shadows',
+        )
+
     def get_sidebar_colour(self):
         return api.portal.get_registry_record(
             'collective.sidebar.sidebar_colour',
         )
+
+    def get_rgb(self, colour, opacity):
+        return hex_to_rgb(colour=colour, rgba=True, opacity=opacity)
 
     def get_portal_url(self):
         return api.portal.get().absolute_url()

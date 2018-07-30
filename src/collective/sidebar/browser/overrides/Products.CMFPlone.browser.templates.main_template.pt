@@ -42,7 +42,9 @@
   <body tal:define="isRTL portal_state/is_rtl;
                     sl python:plone_layout.have_portlets('plone.leftcolumn', view);
                     sr python:plone_layout.have_portlets('plone.rightcolumn', view);
-                    body_class python:plone_layout.bodyClass(template, view);"
+                    body_class python:plone_layout.bodyClass(template, view);
+                    sidebar_locked python:view.request.cookies.get('sidebar-locked', '')"
+        data-with-sidebar="${python:'true' if sidebar_locked else ''}"
         tal:attributes="class body_class;
                         dir python:isRTL and 'rtl' or 'ltr';
                         python:plone_view.patterns_settings()"

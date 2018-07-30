@@ -3,6 +3,26 @@
 
   $(document).ready(function() {
 
+    // Menu Lock
+
+    $('.menu-lock span').click(function() {
+      $(this).toggleClass('jam-padlock-open jam-padlock');
+      $('#sidebar-cover').toggleClass('hidden');
+      if ($.cookie('sidebar-locked')) {
+        $.removeCookie('sidebar-locked');
+      } else {
+        $.cookie('sidebar-locked', 1);
+      }
+    });
+
+    // Collapse
+
+    $('.userrole-authenticated .menu .menu-section-title').click(function() {
+      var parent = $(this).parent();
+      $(this).toggleClass('collapsed');
+      parent.find('a').toggle();
+    });
+
     // Nav Logo
 
     setTimeout(function() {
@@ -32,7 +52,7 @@
 
     $('#nav-icon').click(function(e) {
       e.preventDefault();
-      $('body').toggleClass('with-sidebar');
+      $('body').attr('data-with-sidebar', 'true');
     });
 
     // Navigation Slideovers
@@ -46,7 +66,7 @@
 
     $('#sidebar-cover').click(function(e) {
       e.preventDefault();
-      $('body').removeClass('with-sidebar');
+      $('body').attr('data-with-sidebar', '');
     });
 
   });

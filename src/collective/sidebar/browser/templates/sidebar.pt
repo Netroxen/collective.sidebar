@@ -7,13 +7,44 @@
                    root_items python:view.get_items(root=True)"
        i18n:domain="collective.sidebar">
 
-    <style media="screen" tal:define="colour view/get_sidebar_colour">
-      #portal-navigation .menu-section-title {
+    <style media="screen" tal:define="colour view/get_sidebar_colour;
+                                      rgba python:view.get_rgb(colour=colour, opacity=0.25);
+                                      shadow_effects view/shadow_effects_enabled">
+      #portal-navigation div.menu-section .menu-lock {
+        color: ${rgba};
+      }
+
+      #portal-navigation div.menu-section .menu-lock:hover {
         color: ${colour};
       }
+
+      #portal-navigation div.menu-section .menu-section-title {
+        color: ${colour};
+      }
+
+      #portal-navigation div.menu-section .menu-profile:hover .profile-image {
+        border-color: ${colour};
+        ${python:'box-shadow: 0px 0px 30px ' + rgba + ';' if shadow_effects else None}
+      }
+
+      #portal-navigation div.menu-section .menu-livesearch input:focus {
+        border-color: ${colour};
+      }
+
+      #portal-navigation div.menu-section .menu-livesearch .search-result {
+        background-color: ${colour};
+        ${python:'box-shadow: 0px 0px 30px ' + rgba + ';' if shadow_effects else None}
+      }
+
     </style>
 
     <div class="menu">
+
+      <div class="menu-section" tal:condition="not:view/is_anonymous" tal:define="sidebar_locked python:view.request.cookies.get('sidebar-locked', '')">
+        <div class="menu-lock">
+          <span class="jam ${python:'jam-padlock' if sidebar_locked else 'jam-padlock-open'}"></span>
+        </div>
+      </div>
 
       <tal:condition tal:condition="view/profile_section_enabled">
         <div class="menu-section" tal:condition="not:view/is_anonymous">
@@ -33,6 +64,16 @@
           </div>
         </div>
       </tal:condition>
+
+      <div class="menu-section">
+
+        <div class="menu-livesearch">
+          <form action="${portal_url}/@@search" class="pat-livesearch" data-pat-livesearch="ajaxUrl:${portal_url}/@@ajax-search">
+            <input type="text" name="SearchableText" placeholder="Search..." />
+          </form>
+        </div>
+
+      </div>
 
       <div class="menu-section">
 
@@ -124,6 +165,14 @@
           <span class="menu-item-icon jam jam-folder"></span> <span class="menu-item-title" i18n:translate="contents">Contents</span>
         </a>
 
+        <a href="#" tal:attributes="href python:context.absolute_url() + '/@@historyview'">
+          <span class="menu-item-icon jam jam-clock"></span> <span class="menu-item-title" i18n:translate="history">History</span>
+        </a>
+
+        <a href="#" tal:attributes="href python:context.absolute_url() + '/@@sharing'">
+          <span class="menu-item-icon jam jam-users"></span> <span class="menu-item-title" i18n:translate="sharing">Sharing</span>
+        </a>
+
       </div>
 
       <!-- Document Management -->
@@ -148,6 +197,10 @@
 
         <a href="#" tal:attributes="href python:context.absolute_url() + '/@@select_default_page'">
           <span class="menu-item-icon jam jam-document"></span> <span class="menu-item-title" i18n:translate="select_default_page">Select Default Page</span>
+        </a>
+
+        <a href="#" tal:attributes="href python:context.absolute_url() + '/@@select_default_view'">
+          <span class="menu-item-icon jam jam-layout"></span> <span class="menu-item-title" i18n:translate="select_default_view">Select Default View</span>
         </a>
 
       </div>

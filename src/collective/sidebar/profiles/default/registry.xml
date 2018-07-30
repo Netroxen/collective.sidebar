@@ -22,4 +22,8 @@
 
   <records interface="collective.sidebar.controlpanel.controlpanel.IControlPanel" prefix="collective.sidebar" />
 
+  <records interface='Products.CMFPlone.interfaces.IResourceRegistry' prefix="plone.resources/mockup-patterns-structureupdater">
+    <value key="js">++plone++collective.sidebar.resources/structureupdater.js</value>
+  </records>
+
 </registry>

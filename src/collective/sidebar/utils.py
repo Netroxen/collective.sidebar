@@ -54,3 +54,13 @@ def get_user():
     user_id = user.id
     user_dir = '/users/{0}'.format(user_id)
     return user, user_id, user_dir
+
+
+def hex_to_rgb(colour, rgba=False, opacity=1):
+    value = colour.strip('#')
+    convert = tuple(int(value[i:i + 2], 16) for i in (0, 2, 4))
+    result = 'rgb{0}'.format(convert)
+    if rgba:
+        convert = convert + (opacity,)
+        result = 'rgba{0}'.format(convert)
+    return result
