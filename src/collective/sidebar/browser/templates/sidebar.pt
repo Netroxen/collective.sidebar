@@ -40,14 +40,16 @@
 
     <div class="menu">
 
-      <div class="menu-section" tal:condition="not:view/is_anonymous" tal:define="sidebar_locked python:view.request.cookies.get('sidebar-locked', '')">
-        <div class="menu-lock">
-          <span class="jam ${python:'jam-padlock' if sidebar_locked else 'jam-padlock-open'}"></span>
+      <tal:condition tal:condition="view/cookies_enabled">
+        <div class="menu-section" tal:condition="not:view/is_anonymous" tal:define="sidebar_locked python:view.request.cookies.get('sidebar-locked', '')">
+          <div class="menu-lock">
+            <span class="jam ${python:'jam-padlock' if sidebar_locked else 'jam-padlock-open'}"></span>
+          </div>
         </div>
-      </div>
+      </tal:condition>
 
-      <tal:condition tal:condition="view/profile_section_enabled">
-        <div class="menu-section" tal:condition="not:view/is_anonymous">
+      <tal:condition tal:condition="not:view/is_anonymous">
+        <div class="menu-section" tal:condition="python:view.get_profile_position() == 'sidebar'">
           <div class="menu-profile"
                tal:define="data view/get_user_data;
                            user_info data/user_info;

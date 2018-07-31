@@ -56,11 +56,11 @@ def get_user():
     return user, user_id, user_dir
 
 
-def hex_to_rgb(colour, rgba=False, opacity=1):
+def hex_to_rgb(colour, alpha=False, opacity=1):
     value = colour.strip('#')
     convert = tuple(int(value[i:i + 2], 16) for i in (0, 2, 4))
     result = 'rgb{0}'.format(convert)
-    if rgba:
+    if alpha:
         convert = convert + (opacity,)
         result = 'rgba{0}'.format(convert)
     return result

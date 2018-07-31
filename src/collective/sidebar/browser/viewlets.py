@@ -9,45 +9,82 @@ from Products.CMFCore.interfaces import IFolderish
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 
-class HeaderViewlet(ViewletBase):
+class SidebarViewlet(ViewletBase):
 
-    index = ViewPageTemplateFile('templates/header.pt')
+    def is_anonymous(self):
+        """
+        Check if the user is anonymous.
+        """
+        return api.user.is_anonymous()
+
+    def get_portal_url(self):
+        """
+        Return the portal URL.
+        """
+        return api.portal.get().absolute_url()
 
     def get_sidebar_colour(self):
+        """
+        Return the primary colour set by the user.
+        """
         return api.portal.get_registry_record(
             'collective.sidebar.sidebar_colour',
         )
 
-
-class NavigationViewlet(ViewletBase):
-
-    index = ViewPageTemplateFile('templates/sidebar.pt')
-
-    def is_anonymous(self):
-        return api.user.is_anonymous()
-
-    def profile_section_enabled(self):
-        return api.portal.get_registry_record(
-            'collective.sidebar.profile_section',
-        )
-
     def shadow_effects_enabled(self):
+        """
+        Check if shadow effects are enabled.
+        """
         return api.portal.get_registry_record(
             'collective.sidebar.enable_shadows',
         )
 
-    def get_sidebar_colour(self):
+    def cover_enabled(self):
+        """
+        Check if the page cover is enabled.
+        """
         return api.portal.get_registry_record(
-            'collective.sidebar.sidebar_colour',
+            'collective.sidebar.enable_cover',
+        )
+
+    def cookies_enabled(self):
+        """
+        Check if cookie features are enabled.
+        """
+        return api.portal.get_registry_record(
+            'collective.sidebar.enable_cookies',
+        )
+
+    def get_navigation_position(self):
+        """
+        Return the navigation position that is set.
+            - Left
+            - Right
+        """
+        return api.portal.get_registry_record(
+            'collective.sidebar.navigation_position',
+        )
+
+    def get_profile_position(self):
+        """
+        Return the profile position that is set.
+            - Header
+            - Sidebar
+        """
+        return api.portal.get_registry_record(
+            'collective.sidebar.profile_position',
         )
 
     def get_rgb(self, colour, opacity):
-        return hex_to_rgb(colour=colour, rgba=True, opacity=opacity)
-
-    def get_portal_url(self):
-        return api.portal.get().absolute_url()
+        """
+        Return an RGB or RGBA value from a hexadecimal code.
+        """
+        return hex_to_rgb(colour=colour, alpha=True, opacity=opacity)
 
     def get_user_data(self):
+        """
+        Return user information and portrait.
+        """
         user = get_user()
         mtool = api.portal.get_tool('portal_membership')
         portrait = mtool.getPersonalPortrait(id=user[1])
@@ -59,6 +96,9 @@ class NavigationViewlet(ViewletBase):
         return data
 
     def get_search_path(self, query=False):
+        """
+        Return a search URL using the SearchableText attribute.
+        """
         portal_url = self.get_portal_url()
         if query:
             return '{0}/@@search?SearchableText='.format(portal_url)
@@ -72,7 +112,38 @@ class NavigationViewlet(ViewletBase):
         return navigation_root.absolute_url()
 
     def get_language(self):
+        """
+        Return the current language.
+        """
         return api.portal.get_current_language()
+
+    def can_edit(self):
+        """
+        Check if the user can modify content.
+        """
+        permission = 'cmf.ModifyPortalContent'
+        if api.user.has_permission(permission, obj=self.context):
+            return True
+        return False
+
+    def can_manage_portal(self):
+        """
+        Check is user can manage the portal.
+        """
+        permission = 'cmf.ManagePortal'
+        if api.user.has_permission(permission, obj=self.context):
+            return True
+        return False
+
+
+class HeaderViewlet(SidebarViewlet):
+
+    index = ViewPageTemplateFile('templates/header.pt')
+
+
+class NavigationViewlet(SidebarViewlet):
+
+    index = ViewPageTemplateFile('templates/sidebar.pt')
 
     def get_back(self):
         """
@@ -92,18 +163,6 @@ class NavigationViewlet(ViewletBase):
         except AttributeError:
             pass
         return parent.absolute_url()
-
-    def can_edit(self):
-        permission = 'cmf.ModifyPortalContent'
-        if api.user.has_permission(permission, obj=self.context):
-            return True
-        return False
-
-    def can_manage_portal(self):
-        permission = 'cmf.ManagePortal'
-        if api.user.has_permission(permission, obj=self.context):
-            return True
-        return False
 
     def check_item(self, item):
         """
@@ -197,11 +256,6 @@ class NavigationViewlet(ViewletBase):
             return parent_url
 
 
-class CoverViewlet(ViewletBase):
+class CoverViewlet(SidebarViewlet):
 
     index = ViewPageTemplateFile('templates/cover.pt')
-
-    def is_enabled(self):
-        return api.portal.get_registry_record(
-            'collective.sidebar.enable_cover',
-        )

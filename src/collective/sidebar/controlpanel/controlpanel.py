@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from collective.sidebar import _
+from collective.sidebar.config import NAVIGATION_POSITIONS
+from collective.sidebar.config import PROFILE_POSITIONS
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.registry.browser.controlpanel import RegistryEditForm
 from plone.supermodel.directives import fieldset
@@ -19,11 +21,35 @@ class IControlPanel(Interface):
         default=u'#007EB6',
     )
 
+    enable_cookies = schema.Bool(
+        title=_(u'controlpanel_enable_cookies_title',
+                default='Enable Cookie Features'),
+        description=_(u'controlpanel_enable_cookies_description',
+                      default=u'Enable or disable cookies for sidebar enhancements. e.g. Sidebar-Locking'),  # noqa: 501
+        required=False,
+        default=True,
+    )
+
+    fieldset(
+        _(u'controlpanel_fieldset_effects',
+          default=u'Effects'),
+        fields=('enable_cover', 'enable_shadows'),
+    )
+
+    enable_cover = schema.Bool(
+        title=_(u'controlpanel_enable_cover_title',
+                default='Fade-In Cover'),
+        description=_(u'controlpanel_enable_cover_description',
+                      default=u'Enable or disable the page cover when the sidebar is open.'),  # noqa: 501
+        required=False,
+        default=True,
+    )
+
     enable_shadows = schema.Bool(
         title=_(u'controlpanel_enable_shadows_title',
                 default='Enable Shadow Effects'),
         description=_(u'controlpanel_enable_shadows_description',
-                      default=u'Enable or disable the navigation shadow effects. Note: IE 11, FF 60, Chrome 49 and above only...'),  # noqa: 501
+                      default=u'Enable or disable the navigation box-shadow effects.'),  # noqa: 501
         required=False,
         default=True,
     )
@@ -31,25 +57,27 @@ class IControlPanel(Interface):
     fieldset(
         _(u'controlpanel_fieldset_navigation',
           default=u'Navigation'),
-        fields=('enable_cover', 'profile_section'),
+        fields=('navigation_position', 'profile_position'),
     )
 
-    enable_cover = schema.Bool(
-        title=_(u'controlpanel_enable_cover_title',
-                default='Fade-In Cover'),
-        description=_(u'controlpanel_enable_cover_description',
-                      default=u'Enable or disable the navigation fade-in cover when open.'),  # noqa: 501
-        required=False,
-        default=True,
+    navigation_position = schema.Choice(
+        title=_(u'controlpanel_navigation_position_title',
+                default='Navigation Position'),
+        description=_(u'controlpanel_navigation_position_description',
+                      default=u'Display the navigation on the left or right side of the screen.'),  # noqa: 501
+        vocabulary=NAVIGATION_POSITIONS,
+        required=True,
+        default=u'right',
     )
 
-    profile_section = schema.Bool(
-        title=_(u'controlpanel_profile_section_title',
-                default='Profile Section'),
-        description=_(u'controlpanel_profile_section_description',
-                      default=u'Enable or disable the navigation profile section.'),  # noqa: 501
-        required=False,
-        default=True,
+    profile_position = schema.Choice(
+        title=_(u'controlpanel_profile_position_title',
+                default='Profile Position'),
+        description=_(u'controlpanel_profile_position_description',
+                      default=u'Display the profile section in the header or sidebar.'),  # noqa: 501
+        vocabulary=PROFILE_POSITIONS,
+        required=True,
+        default=u'sidebar',
     )
 
 
