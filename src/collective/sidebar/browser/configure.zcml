@@ -46,4 +46,13 @@
       permission="zope2.View"
       />
 
+  <!-- AJAX -->
+
+  <browser:page
+      name="navData"
+      for="*"
+      class=".viewlets.NavigationAJAX"
+      permission="zope2.View"
+      />
+
 </configure>

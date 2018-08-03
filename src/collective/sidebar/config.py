@@ -15,3 +15,8 @@ PROFILE_POSITIONS = SimpleVocabulary([
     SimpleTerm(value=u'header', title=_(u'Header')),
     SimpleTerm(value=u'sidebar', title=_(u'Sidebar')),
 ])
+
+SEARCH_POSITIONS = SimpleVocabulary([
+    SimpleTerm(value=u'cover', title=_(u'Cover')),
+    SimpleTerm(value=u'sidebar', title=_(u'Sidebar')),
+])

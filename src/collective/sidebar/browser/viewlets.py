@@ -6,6 +6,7 @@ from collective.sidebar.utils import hex_to_rgb
 from plone import api
 from plone.app.layout.viewlets.common import ViewletBase
 from Products.CMFCore.interfaces import IFolderish
+from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 
@@ -254,6 +255,20 @@ class NavigationViewlet(SidebarViewlet):
             return context_url
         else:
             return parent_url
+
+
+class NavigationAJAX(BrowserView):
+
+    def __call__(self, render):
+        context = self.context
+        request = self.request
+        if render:
+            return self.render_viewlet(context, request)
+        return None
+
+    def render_viewlet(self, context, request):
+        navigation = NavigationViewlet(context, request, None, None)
+        return navigation.render()
 
 
 class CoverViewlet(SidebarViewlet):

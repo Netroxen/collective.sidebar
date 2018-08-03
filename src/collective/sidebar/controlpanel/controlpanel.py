@@ -2,6 +2,7 @@
 from collective.sidebar import _
 from collective.sidebar.config import NAVIGATION_POSITIONS
 from collective.sidebar.config import PROFILE_POSITIONS
+from collective.sidebar.config import SEARCH_POSITIONS
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.registry.browser.controlpanel import RegistryEditForm
 from plone.supermodel.directives import fieldset
@@ -16,9 +17,18 @@ class IControlPanel(Interface):
         title=_(u'controlpanel_sidebar_colour_title',
                 default='Sidebar Colour'),
         description=_(u'controlpanel_sidebar_colour_description',
-                      default=u'Enter a primary colour to be used for the header and navigation. e.g. #007EB6'),  # noqa: 501
+                      default=u'Assign a primary colour to be used with the header and navigation. e.g. #007EB6'),  # noqa: 501
         required=True,
         default=u'#007EB6',
+    )
+
+    plone_style = schema.Bool(
+        title=_(u'controlpanel_plone_style_title',
+                default='Plone Style'),
+        description=_(u'controlpanel_plone_style_description',
+                      default=u'You\'re a Plonista, a true lover of all things Plone. Theme the sidebar and header with Plone goodness.'),  # noqa: 501
+        required=False,
+        default=False,
     )
 
     enable_cookies = schema.Bool(
@@ -57,7 +67,7 @@ class IControlPanel(Interface):
     fieldset(
         _(u'controlpanel_fieldset_navigation',
           default=u'Navigation'),
-        fields=('navigation_position', 'profile_position'),
+        fields=('navigation_position', 'profile_position', 'search_position'),
     )
 
     navigation_position = schema.Choice(
@@ -76,6 +86,16 @@ class IControlPanel(Interface):
         description=_(u'controlpanel_profile_position_description',
                       default=u'Display the profile section in the header or sidebar.'),  # noqa: 501
         vocabulary=PROFILE_POSITIONS,
+        required=True,
+        default=u'sidebar',
+    )
+
+    search_position = schema.Choice(
+        title=_(u'controlpanel_search_position_title',
+                default='Search Position'),
+        description=_(u'controlpanel_search_position_description',
+                      default=u'Display the search field in the sidebar or page cover.'),  # noqa: 501
+        vocabulary=SEARCH_POSITIONS,
         required=True,
         default=u'sidebar',
     )

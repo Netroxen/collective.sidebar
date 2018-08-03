@@ -231,21 +231,51 @@
 
         <!-- Navigation Controls -->
 
-        <div class="menu-section" tal:condition="items">
+        <div class="menu-section">
 
           <div class="menu-section-title" i18n:translate="navigation_heading_navigation">Navigation</div>
 
-          <tal:item tal:condition="view/get_back">
-            <a href="#" tal:attributes="href view/get_back">
-              <span class="menu-item-icon jam jam-chevron-left"></span> <span class="menu-item-title" i18n:translate="back">Back</span>
-            </a>
-          </tal:item>
+          <div id="nav-outer">
+            <div id="nav-inner">
 
-          <tal:items tal:repeat="item items">
-            <a href="#" tal:attributes="title item/title; href item/url;">
-              <span class="menu-item-icon jam jam-chevron-right"></span> <span class="menu-item-title" tal:content="item/title_cropped"></span>
-            </a>
-          </tal:items>
+              <tal:item tal:condition="view/get_back">
+                <a class="nav-link" href="#" tal:attributes="href view/get_back">
+                  <span class="menu-item-icon jam jam-chevron-left"></span> <span class="menu-item-title" i18n:translate="back">Back</span>
+                </a>
+              </tal:item>
+
+              <tal:items tal:repeat="item items">
+                <a class="nav-link" href="#" tal:attributes="title item/title; href item/url;">
+                  <span class="menu-item-icon jam jam-chevron-right"></span> <span class="menu-item-title" tal:content="item/title_cropped"></span>
+                </a>
+              </tal:items>
+
+            </div>
+          </div>
+
+        <script type="text/javascript">
+          $('body').on('click', '.nav-link', function(e) {
+            e.preventDefault();
+            var href = $(this).attr('href');
+            var target = href + '/@@navData?render=1';
+            $.ajax({
+              async: false,
+              url: target,
+              complete: function(data) {
+                var $nav_inner = $('#nav-inner');
+                var resp = $(data.responseText);
+                var resp_nav_inner = resp.find('#nav-inner').html();
+                if (typeof(resp_nav_inner) == 'undefined') {
+                  window.location.replace(href);
+                }
+                var $clone = $nav_inner.clone(true);
+                $clone.html(resp_nav_inner);
+                $nav_inner.replaceWith($clone);
+              }
+            });
+          });
+
+        </script>
 
         </div>
 
